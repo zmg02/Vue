@@ -1,12 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/pages/Home'
-import Search from '@/pages/Search'
-import Login from '@/pages/Login'
-import Register from '@/pages/Register'
+import routes from './routes'
+import store from '@/store'
 
 Vue.use(VueRouter)
-
 /*
     promise错误处理
     重写VueRouter.prototype原型对象身上的push|replace方法
@@ -42,35 +39,43 @@ VueRouter.prototype.replace = function(location, resolve, reject){
     }
 }
 
-export default new VueRouter({
-    routes:[
-        {
-            path: '/home',
-            component: Home
-        },
-        {
-            name: 'search',
-            path: '/search/:keywords?',
-            component: Search,
-            props($router){
-                return {
-                    keywords: $router.params.keywords,
-                    k: $router.query.k
+const router = new VueRouter({
+    routes,
+    //滚动行为
+    scrollBehavior(to, from, savedPosition) {
+        return {y:0};
+    },
+});
+
+//全局守卫：前置守卫（路由跳转之前）
+router.beforeEach(async (to, from, next) => {
+    let token = store.state.user.token;
+    let name = store.state.user.userInfo.name;
+    if (token) {
+        //已登录
+        //不能路由到登录注册页
+        if (to.path=='/login' || to.path=='/register') {
+            next('/');
+        } else {
+            //判断是否有用户信息
+            if (name) {
+                next();
+            } else {
+                //没有用户信息需要获取
+                try {
+                    await store.dispatch('user/getUserInfo');
+                    next();
+                } catch (error) {
+                    //token过期，退出登录
+                    await store.dispatch('user/logout');
+                    next('/login');
                 }
             }
-        },
-        {
-            path: '/login',
-            component: Login
-        },
-        {
-            path: '/register',
-            component: Register
-        },
-        //路由跳转
-        {
-            path: '/',
-            redirect: '/home'
         }
-    ]
-})
+    } else {
+        //未登录
+        next();
+    }
+});
+
+export default router;

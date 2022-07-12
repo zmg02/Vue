@@ -1,0 +1,71 @@
+[
+    [
+        {
+            "attrId": 106,
+            "attrValueList": [
+                "安卓手机",
+                "苹果手机"
+            ],
+            "attrName": "手机一级"
+        },
+        {
+            "attrId": 107,
+            "attrValueList": [
+                "小米",
+                "华为",
+                "苹果"
+            ],
+            "attrName": "二级手机"
+        },
+        {
+            "attrId": 23,
+            "attrValueList": [
+                "4G",
+                "8G",
+                "6G",
+                "128G",
+                "12G"
+            ],
+            "attrName": "运行内存"
+        },
+        {
+            "attrId": 24,
+            "attrValueList": [
+                "128G",
+                "1T",
+                "256G",
+                "64G"
+            ],
+            "attrName": "机身内存"
+        },
+        {
+            "attrId": 111,
+            "attrValueList": [
+                "骁龙439",
+                "骁龙730G"
+            ],
+            "attrName": "CPU型号"
+        },
+        {
+            "attrId": 112,
+            "attrValueList": [
+                "6.0-6.24英寸"
+            ],
+            "attrName": "屏幕尺寸"
+        }
+    ],
+    [
+        {
+            "tmId": 1,
+            "tmName": "小米"
+        },
+        {
+            "tmId": 2,
+            "tmName": "苹果"
+        },
+        {
+            "tmId": 3,
+            "tmName": "华为"
+        }
+    ]
+]

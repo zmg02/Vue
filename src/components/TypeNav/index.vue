@@ -120,7 +120,6 @@ export default {
         }
 
         location.query = query;
-        console.log(location);
         this.$router.push(location);
       }
     },
@@ -128,12 +127,9 @@ export default {
     changShowSort() {
       if (this.$route.name == "search") this.showSort = true;
     },
+    // ...mapActions('home', {getCategoryList:'getCategoryList'}),
   },
   mounted() {
-    // this.$store.dispatch('getCategoryList'),
-    // ...mapActions('home', ['getCategoryList']),
-    // ...mapActions('home', {getCategoryList:'getCategoryList'}),
-    
     if (this.$route.path !== "/home") this.showSort = false;
   },
 };

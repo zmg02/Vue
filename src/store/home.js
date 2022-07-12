@@ -15,7 +15,6 @@ const actions = {
     async getBannerList(context) {
         let result = await reqGetBannerList();
         if (result.code == 200) {
-            console.log(result.data)
             context.commit('GETBANNERLIST', result.data)
         }
     }
