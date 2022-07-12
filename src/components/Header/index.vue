@@ -5,15 +5,19 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!userInfo.name">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
           </p>
+          <p v-else>
+            <span>{{userInfo.name}}</span>
+            <a class="register" @click="logout">退出登录</a>
+          </p>
         </div>
         <div class="typeList">
           <a href="###">我的订单</a>
-          <a href="###">我的购物车</a>
+          <router-link to="/shopCart">我的购物车</router-link>
           <a href="###">我的尚品汇</a>
           <a href="###">尚品汇会员</a>
           <a href="###">企业采购</a>
@@ -36,7 +40,7 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
-            v-model="keywords"
+            v-model="keyword"
           />
           <button
             class="sui-btn btn-xlarge btn-danger"
@@ -52,15 +56,19 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   data() {
     return {
-      keywords: "",
+      keyword: "",
     };
+  },
+  computed: {
+    ...mapState('user', ['userInfo']),
   },
   methods: {
     goSearch() {
-      if (this.keywords.trim()) {
+      if (this.keyword.trim()) {
         //如果路由中包含商品类别搜索条件，这里拼接上
         let location = {
           name: "search",
@@ -68,11 +76,24 @@ export default {
         if (this.$route.query) {
           location.query = this.$route.query
         }
-        location.params = { keywords: this.keywords.trim() || undefined }
+        location.params = { keyword: this.keyword.trim() || undefined }
         this.$router.push(location);
       }
     },
+    async logout() {
+      try {
+        await this.$store.dispatch('user/logout');
+        this.$router.push('/home');
+      } catch (error) {
+        alert(error.message);
+      }
+    }
   },
+  mounted() {
+    this.$bus.$on("clear", ()=>{
+      this.keyword = '';
+    })
+  }
 };
 </script>
 

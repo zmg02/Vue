@@ -26,7 +26,7 @@ export default {
       ...mapState('home', ['floorList']),
     },
     mounted() {
-      this.$store.dispatch('home/getFloorList')
+      this.$store.dispatch('home/getFloorList');
     },
 }
 </script>

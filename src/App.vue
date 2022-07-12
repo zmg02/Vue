@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <Header />
+    <!-- 路由组件出口的地方 -->
     <router-view></router-view>
-    <Footer/>
+    <!-- 利用路由元信息，是否显示 -->
+    <Footer v-show="$route.meta.isShow"/>
   </div>
 </template>
 

@@ -86,7 +86,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch("home/getBannerList");
-    console.log(this.bannerList);
     this.$nextTick(function () {});
   },
 };
@@ -163,7 +162,7 @@ export default {
           width: 25%;
 
           .list-item {
-            background-image: url(./images/icons.png);
+            background-image: url(~@/assets/images/icons.png);
             width: 61px;
             height: 40px;
             display: block;
