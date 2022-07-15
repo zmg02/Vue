@@ -148,7 +148,6 @@ export default {
       } else {
         alert(result.data);
       }
-      console.log(result);
     },
   },
   mounted() {

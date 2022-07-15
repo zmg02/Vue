@@ -9,7 +9,6 @@ const actions = {
     },
     async getTradeOrder({commit}) {
         let result = await reqGetTradeOrder();
-        console.log(result)
         if (result.code == 200) {
             commit('GETTRADEORDER',result.data);
         }

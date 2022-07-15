@@ -39,9 +39,6 @@
             }
             return {start, end};
         }
-    },
-    methods: {
-
     }
   }
 </script>

@@ -1,5 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
+  // 打包时不生成map文件
+  productionSourceMap: false,
   transpileDependencies: true,
   //关闭Eslint校验工具
   lintOnSave: false,
@@ -7,7 +9,6 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       "/api": {
-        // target: "http://39.98.123.211",
         target: "http://gmall-h5-api.atguigu.cn",
         // pathRewrite: {"^/api" : ""}
       }

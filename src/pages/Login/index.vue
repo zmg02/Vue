@@ -16,12 +16,34 @@
           <div class="content">
             <form>
               <div class="input-text clearFix">
-                <span></span>
-                <input type="text" placeholder="邮箱/用户名/手机号" v-model="phone"/>
+                <span class="icon"></span>
+                <input
+                  type="text"
+                  placeholder="邮箱/用户名/手机号"
+                  v-model="phone"
+                  name="phone"
+                  v-validate="{
+                    required: true,
+                    regex: /^1(?:3[4-9]|47|5[^4]|6\d|7[^1-4]|8\d|9[^4])\d{8}$/,
+                  }"
+                  :class="{ invalid: errors.has('phone') }"
+                />
+                <span class="error-msg">{{ errors.first("phone") }}</span>
               </div>
               <div class="input-text clearFix">
-                <span class="pwd"></span>
-                <input type="text" placeholder="请输入密码" v-model="password"/>
+                <span class="icon pwd"></span>
+                <input
+                  type="password"
+                  placeholder="请输入密码"
+                  v-model="password"
+                  name="password"
+                  v-validate="{
+                    required: true,
+                    regex: /^.{3,}$/,
+                  }"
+                  :class="{ invalid: errors.has('password') }"
+                />
+                <span class="error-msg">{{ errors.first("password") }}</span>
               </div>
               <div class="setting clearFix">
                 <label class="checkbox inline">
@@ -80,15 +102,17 @@ export default {
   },
   methods: {
     async userLogin() {
-      try {
-        const { phone, password,checked } = this;
-        (phone && password) &&
-          (await this.$store.dispatch("user/login", { phone, password }));
+      let success = await this.$validator.validateAll();
+      if (success) {
+        try {
+          const { phone, password } = this;
+          await this.$store.dispatch("user/login", { phone, password });
 
           let toPath = this.$route.query.redirect || "/home";
           this.$router.push(toPath);
-      } catch (error) {
-        alert(error.message);
+        } catch (error) {
+          alert(error.message);
+        }
       }
     },
   },
@@ -161,7 +185,7 @@ export default {
           .input-text {
             margin-bottom: 16px;
 
-            span {
+            .icon {
               float: left;
               width: 37px;
               height: 32px;
@@ -191,6 +215,11 @@ export default {
 
               border-radius: 0 2px 2px 0;
               outline: none;
+            }
+
+            .error-msg {
+              padding-left: 45px;
+              color: red;
             }
           }
 
